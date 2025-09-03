@@ -110,53 +110,54 @@
 
 <div class="products">
   <div class="product">
-    <img src="{{ url_for('static', filename='images/Homeo Cure Cream.jpeg') }}" alt="Homeo Cure Cream">
-    <h3>Homeo Cure Cream</h3>
-    <p>PKR 450</p>
-    <button class="btn add-to-cart" data-name="Homeo Cure Cream" data-price="450">Add to Cart</button>
-    <div class="quantity-control" data-name="Homeo Cure Cream">
-      <button class="minus">-</button>
-      <span>0</span>
-      <button class="plus">+</button>
+      <img src="{{ url_for('static', filename='images/Homeo Cure Cream.jpeg') }}" alt="Homeo Cure Cream">
+      <h3>Homeo Cure Cream</h3>
+      <p>PKR 450</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Homeo Cure Cream" data-price="450">Add to Cart</button>
     </div>
-  </div>
 
   <div class="product">
-    <img src="{{ url_for('static', filename='images/Glupatone.jpeg') }}" alt="Glupatone">
-    <h3>Glupatone</h3>
-    <p>PKR 550</p>
-    <button class="btn add-to-cart" data-name="Glupatone" data-price="550">Add to Cart</button>
-    <div class="quantity-control" data-name="Glupatone">
-      <button class="minus">-</button>
-      <span>0</span>
-      <button class="plus">+</button>
+      <img src="{{ url_for('static', filename='images/Glupatone.jpeg') }}" alt="Glupatone">
+      <h3>Glupatone</h3>
+      <p>PKR 550</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Glupatone" data-price="550">Add to Cart</button>
     </div>
-  </div>
 
-  <div class="product">
-    <img src="{{ url_for('static', filename='images/Homeocure&Glupatone Deal.jpeg') }}" alt="Homeocure&Glupatone Deal">
-    <h3>Homeo Cure & Glupatone Deal</h3>
-    <p>PKR 1000</p>
-    <button class="btn add-to-cart" data-name="Homeo Cure & Glupatone Deal" data-price="1000">Add to Cart</button>
-    <div class="quantity-control" data-name="Homeo Cure & Glupatone Deal">
-      <button class="minus">-</button>
-      <span>0</span>
-      <button class="plus">+</button>
-    </div>
-  </div>
 
-  <div class="product">
-    <img src="{{ url_for('static', filename='images/multivitamins.jpg') }}" alt="Multivitamins">
-    <h3>Multivitamins</h3>
-    <p>PKR 999</p>
-    <button class="btn add-to-cart" data-name="Multivitamins" data-price="999">Add to Cart</button>
-    <div class="quantity-control" data-name="Multivitamins">
-      <button class="minus">-</button>
-      <span>0</span>
-      <button class="plus">+</button>
+
+ <div class="product">
+      <img src="{{ url_for('static', filename='images/Homeocure&Glupatone Deal.jpeg') }}" alt="Homeocure&Glupatone Deal">
+      <h3>Homeocure&Glupatone Deal</h3>
+      <p>PKR 1000</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Homeocure&Glupatone Deal" data-price="1000">Add to Cart</button>
     </div>
-  </div>
-</div>
+
+   <div class="product">
+      <img src="{{ url_for('static', filename='images/Multivitamins') }}" alt="Multivitamins">
+      <h3>Multivitamins</h3>
+      <p>PKR 600</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Multivitamins" data-price="600">Add to Cart</button>
+    </div>
 
 <script>
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
