@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jewellery - Kayiral Sellers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #fff; color: #222; }
+    header { background: #2a7ae2; color: #fff; padding: 15px 30px; text-align: center; }
+    header h2 { margin: 0; }
+    nav { margin-top: 10px; }
+    nav a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: bold; }
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+    .product { border: 1px solid #ddd; border-radius: 12px; padding: 15px; text-align: center; background: #fafafa; transition: transform 0.2s; }
+    .product:hover { transform: translateY(-5px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .product img { width: 100%; border-radius: 12px; }
+    .product h3 { margin: 10px 0 5px; font-size: 18px; }
+    .product p { margin: 5px 0; font-weight: bold; color: #2a7ae2; }
+    .btn { display: inline-block; margin-top: 10px; padding: 8px 16px; background: #2a7ae2; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .qty-btn { padding: 4px 10px; margin: 0 5px; cursor: pointer; background: #ddd; border: none; border-radius: 5px; }
+    .qty { width: 40px; text-align: center; }
+    footer { position: absolute; bottom: 0; width: 100%; height: 60px; background: #222; color: #fff; text-align: center; line-height: 60px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Jewellery - Kayiral Sellers</h2>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/cart">Cart</a>
+    <a href="/contact">Contact</a>
+  </nav>
+</header>
+
+<div class="products">
+
+  <!-- Product 1 -->
+  <div class="product">
+    <img src="{{ url_for('static', filename='images/goldRing.jpg') }}" alt="Gold Ring">
+    <h3>Gold Ring</h3>
+    <p>PKR 2499</p>
+    <div>
+      <button class="qty-btn minus">-</button>
+      <input type="number" class="qty" value="1" min="1">
+      <button class="qty-btn plus">+</button>
+    </div>
+    <button class="btn add-to-cart" data-name="Gold Ring" data-price="2499">Add to Cart</button>
+  </div>
+
+  <!-- Product 2 -->
+  <div class="product">
+    <img src="{{ url_for('static', filename='images/silverNecklace.jpg') }}" alt="Silver Necklace">
+    <h3>Silver Necklace</h3>
+    <p>PKR 1999</p>
+    <div>
+      <button class="qty-btn minus">-</button>
+      <input type="number" class="qty" value="1" min="1">
+      <button class="qty-btn plus">+</button>
+    </div>
+    <button class="btn add-to-cart" data-name="Silver Necklace" data-price="1999">Add to Cart</button>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="product">
+    <img src="{{ url_for('static', filename='images/diamondEarrings.jpg') }}" alt="Diamond Earrings">
+    <h3>Diamond Earrings</h3>
+    <p>PKR 3499</p>
+    <div>
+      <button class="qty-btn minus">-</button>
+      <input type="number" class="qty" value="1" min="1">
+      <button class="qty-btn plus">+</button>
+    </div>
+    <button class="btn add-to-cart" data-name="Diamond Earrings" data-price="3499">Add to Cart</button>
+  </div>
+
+  <!-- Product 4 -->
+  <div class="product">
+    <img src="{{ url_for('static', filename='images/bracelet.jpg') }}" alt="Bracelet">
+    <h3>Bracelet</h3>
+    <p>PKR 1799</p>
+    <div>
+      <button class="qty-btn minus">-</button>
+      <input type="number" class="qty" value="1" min="1">
+      <button class="qty-btn plus">+</button>
+    </div>
+    <button class="btn add-to-cart" data-name="Bracelet" data-price="1799">Add to Cart</button>
+  </div>
+
+</div>
+
+<script>
+  // Initialize cart
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  document.querySelectorAll('.product').forEach(product => {
+    const name = product.querySelector('.add-to-cart').dataset.name;
+    const price = parseInt(product.querySelector('.add-to-cart').dataset.price);
+
+    const minus = product.querySelector('.minus');
+    const plus = product.querySelector('.plus');
+    const qtyInput = product.querySelector('.qty');
+    const addBtn = product.querySelector('.add-to-cart');
+
+    minus.addEventListener('click', () => {
+      let val = parseInt(qtyInput.value);
+      if(val > 1) qtyInput.value = val - 1;
+    });
+
+    plus.addEventListener('click', () => {
+      qtyInput.value = parseInt(qtyInput.value) + 1;
+    });
+
+    addBtn.addEventListener('click', () => {
+      const quantity = parseInt(qtyInput.value);
+
+      const existing = cart.find(item => item.name === name);
+      if(existing){
+        existing.quantity += quantity;
+      } else {
+        cart.push({name: name, price: price, quantity: quantity});
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} x${quantity} added to cart!`);
+    });
+  });
+</script>
+
+<footer>
+  &copy; 2025 Kayiral Sellers. All rights reserved.
+</footer>
+
+</body>
+</html>

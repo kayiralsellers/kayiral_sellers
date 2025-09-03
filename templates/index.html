@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kayiral Sellers (Aqsa Classic)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root{
+      --brand:#2a7ae2;
+      --muted:#555;
+      --radius:12px;
+    }
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#fff;
+      color:#222;
+      line-height:1.5;
+    }
+    header{
+      background:#2a7ae2;
+      color:#fff;
+      padding:15px 30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    header h2{margin:0;}
+    nav a{
+      color:#fff;
+      margin-left:20px;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .hero{
+      padding:60px 20px;
+      background:linear-gradient(135deg,#f0f9ff 0%,#ffffff 100%);
+      text-align:center;
+      border-radius:var(--radius);
+      margin:20px;
+    }
+    .hero h1{
+      font-size:40px;
+      margin-bottom:10px;
+    }
+    .hero p{
+      max-width:480px;
+      margin:0 auto 20px;
+      color:var(--muted);
+      font-size:18px;
+    }
+    .cta{
+      display:flex;
+      justify-content:center;
+      gap:15px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      padding:12px 24px;
+      border-radius:var(--radius);
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .btn.primary{background:var(--brand);color:#fff;}
+    .btn.ghost{border:2px solid var(--brand);color:var(--brand);}
+    .badge{
+      background:#4caf50;
+      color:#fff;
+      padding:8px 14px;
+      border-radius:20px;
+      font-size:14px;
+    }
+    .section{
+      padding:40px 20px;
+      text-align:center;
+    }
+    .section h2{
+      margin-bottom:20px;
+    }
+    .categories{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:20px;
+      max-width:1000px;
+      margin:0 auto;
+    }
+    .category{
+      border:1px solid #ddd;
+      border-radius:var(--radius);
+      padding:20px;
+      background:#fafafa;
+    }
+    .category h3{margin-top:0;}
+    .category a{color:var(--brand);font-weight:bold;text-decoration:none;}
+    footer{
+      background:#222;
+      color:#fff;
+      padding:20px;
+      text-align:center;
+    }
+    .social a{
+      color:#fff;
+      margin:0 10px;
+      font-size:20px;
+      text-decoration:none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Kayiral Sellers</h2>
+    <nav>
+     <a href="/">Home</a>
+     <a href="#products">Products</a>
+     <a href="/cart">Cart</a>
+     <a href="/contact">Contact</a>
+     <a href="/login" class="btn primary" style="padding:6px 14px; font-size:14px;">Login</a>
+
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome to <span style="color:var(--brand)">Kayiral Sellers</span>
+      <small style="display:block;font-size:18px;font-weight:600;color:var(--muted)">(Aqsa Classic)</small>
+    </h1>
+    <p>Your trusted online store for cosmetics, health products, laces, jewellery, shoes, and clothes.</p>
+    <div class="cta">
+      <a class="btn primary" href="#products">🛍 View Products</a>
+      <a class="btn ghost" href="contact.html">📞 Contact Us</a>
+      <span class="badge">✅ Cash on Delivery</span>
+    </div>
+  </section>
+
+<section id="products" class="section">
+  <h2>Our Product Categories</h2>
+  <div class="categories">
+    <div class="category">
+      <h3>💄 Cosmetics</h3>
+      <a href="cosmetics">Shop Now</a>
+    </div>
+    <div class="category">
+      <h3>🩺 Health Products</h3>
+      <a href="health">Shop Now</a>
+    </div>
+    <div class="category">
+      <h3>🧵 Laces</h3>
+      <a href="laces">Shop Now</a>
+    </div>
+    <div class="category">
+      <h3>💍 Jewellery</h3>
+      <a href="jewellery">Shop Now</a>
+    </div>
+    <div class="category">
+      <h3>👟 Shoes</h3>
+      <a href="shoes">Shop Now</a>
+    </div>
+    <div class="category">
+      <h3>👗 Clothes</h3>
+      <a href="clothes">Shop Now</a>
+    </div>
+  </div>
+</section>
+
+  <section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <p>📞 Phone: 0349 9832172</p>
+    <p>📧 Email: kayiralsellers.com </p>
+    <div class="social">
+      <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
+      <a href="https://wa.me/923499832172" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Kayiral Sellers. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart - Kayiral Sellers</title>
+<style>
+  body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#fff;}
+  h2{text-align:center;}
+  table{width:100%;border-collapse:collapse;margin:20px 0;}
+  th,td{border:1px solid #ddd;padding:10px;text-align:center;}
+  .btn{display:inline-block;padding:8px 16px;background:#2a7ae2;color:#fff;text-decoration:none;border-radius:8px;margin:2px;cursor:pointer;}
+  .btn:hover{opacity:0.9;}
+  .delete-btn{background:#e74c3c;}
+  .quantity-btn{padding:4px 10px;}
+  .empty{text-align:center;color:#555;font-size:18px;margin-top:40px;}
+</style>
+</head>
+<body>
+  <h2>Your Shopping Cart</h2>
+
+  <table id="cart-table" style="display:none;">
+    <tr><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th><th>Action</th></tr>
+  </table>
+
+  <p id="grand-total" class="empty">Your cart is currently empty.</p>
+
+  <div style="text-align:center;">
+    <a href="{{ url_for('home') }}" class="btn">Continue Shopping</a>
+    <a href="#" class="btn" id="checkout-btn" style="display:none;">Proceed to Checkout</a>
+  </div>
+
+<script>
+function loadCart() {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const table = document.getElementById('cart-table');
+  const grandTotalEl = document.getElementById('grand-total');
+  const checkoutBtn = document.getElementById('checkout-btn');
+
+  table.innerHTML = '<tr><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th><th>Action</th></tr>';
+
+  if(cart.length === 0){
+    table.style.display = 'none';
+    grandTotalEl.innerText = "Your cart is currently empty.";
+    grandTotalEl.classList.add('empty');
+    checkoutBtn.style.display = 'none';
+    return;
+  }
+
+  table.style.display = 'table';
+  checkoutBtn.style.display = 'inline-block';
+  grandTotalEl.classList.remove('empty');
+
+  let grandTotal = 0;
+  cart.forEach((item, index) => {
+    const total = item.price * item.quantity;
+    grandTotal += total;
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${item.name}</td>
+      <td>
+        <button class="btn quantity-btn" onclick="decreaseQty(${index})">-</button>
+        ${item.quantity}
+        <button class="btn quantity-btn" onclick="increaseQty(${index})">+</button>
+      </td>
+      <td>PKR ${item.price}</td>
+      <td>PKR ${total}</td>
+      <td><button class="btn delete-btn" onclick="deleteItem(${index})">Remove</button></td>
+    `;
+    table.appendChild(row);
+  });
+
+  grandTotalEl.innerText = "Grand Total: PKR " + grandTotal;
+}
+
+// Increase quantity
+function increaseQty(index){
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart[index].quantity += 1;
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
+// Decrease quantity
+function decreaseQty(index){
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  if(cart[index].quantity > 1){
+    cart[index].quantity -= 1;
+  } else {
+    cart.splice(index,1); // remove if quantity is 1
+  }
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
+// Delete item completely
+function deleteItem(index){
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.splice(index,1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  loadCart();
+}
+
+// Send cart items to Flask checkout
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  localStorage.setItem('cart_for_checkout', JSON.stringify(cart)); // Flask will use this
+  window.location.href = '/checkout';
+});
+
+// Initial load
+loadCart();
+</script>
+</body>
+</html>

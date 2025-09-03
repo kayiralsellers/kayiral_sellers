@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Kayiral Sellers</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:0;padding:20px;background:#fff;color:#222;}
+    h2{text-align:center;margin-bottom:20px;}
+    table{width:100%;border-collapse:collapse;margin:20px 0;}
+    th,td{border:1px solid #ddd;padding:10px;text-align:center;}
+    input, textarea{width:100%;padding:10px;margin:5px 0 15px;border:1px solid #ccc;border-radius:8px;}
+    .btn{padding:12px 24px;background:#2a7ae2;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
+    .btn:hover{opacity:0.9;}
+    .section{max-width:800px;margin:0 auto;}
+    .total-row{font-weight:bold;}
+  </style>
+</head>
+<body>
+  <div class="section">
+    <h2>Checkout</h2>
+    <form method="POST">
+      <label>Full Name</label>
+      <input type="text" name="name" required>
+
+      <label>Phone Number</label>
+      <input type="tel" name="phone" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Delivery Address</label>
+      <textarea name="address" rows="3" required></textarea>
+
+      <label>Order Notes (Optional)</label>
+      <textarea name="description" rows="3" placeholder="Any special instructions or requests"></textarea>
+
+      <h3>Products in your cart:</h3>
+      <table id="checkout-table">
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+        </tr>
+      </table>
+      <p id="grand-total">Delivery fee: PKR 100</p>
+
+      <!-- Hidden input to send entire cart -->
+      <input type="hidden" name="cart_data" id="cart_data_input">
+
+      <button type="submit" class="btn">Place Order</button>
+    </form>
+  </div>
+
+  <script>
+    // Load cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const table = document.getElementById('checkout-table');
+    let grandTotal = 0;
+
+    cart.forEach(item => {
+      const total = item.price * item.quantity;
+      grandTotal += total;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.quantity}</td>
+        <td>PKR ${item.price}</td>
+        <td>PKR ${total}</td>
+      `;
+      table.appendChild(row);
+    });
+
+    // Add delivery fee (instead of COD)
+    const deliveryFee = 100;
+    grandTotal += deliveryFee;
+    document.getElementById('grand-total').innerText = "Grand Total (including delivery PKR " + deliveryFee + "): PKR " + grandTotal;
+
+    // Send cart data as JSON to Flask
+    document.getElementById('cart_data_input').value = JSON.stringify(cart);
+  </script>
+</body>
+</html>

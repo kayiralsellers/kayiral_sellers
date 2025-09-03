@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; background:#f9f9f9; }
+    h1 { text-align:center; }
+    table { width:100%; border-collapse: collapse; margin-top:20px; background:#fff; }
+    th, td { border:1px solid #ccc; padding:8px; text-align:left; }
+    th { background:#f2f2f2; }
+    .status-cancelled { color:red; font-weight:bold; }
+    .status-confirmed { color:green; font-weight:bold; }
+    .status-pending { color:orange; font-weight:bold; }
+    .status-delivered { color:blue; font-weight:bold; }
+    .status-shipped { color:purple; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>OrderID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Items</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr>
+        <td>{{ order["OrderID"] }}</td>
+        <td>{{ order["CustomerName"] }}</td>
+        <td>{{ order["Phone"] }}</td>
+        <td>{{ order["Email"] }}</td>
+        <td>{{ order["Items"] }}</td>
+        <td>PKR {{ order["Total"] }}</td>
+        <td class="status-{{ order['Status']|lower }}">{{ order["Status"] }}</td>
+        <td>
+          <form action="/update_status" method="post" style="display:inline;">
+            <input type="hidden" name="order_id" value="{{ order['OrderID'] }}">
+            <select name="new_status">
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="shipped">Shipped</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <button type="submit">Update</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

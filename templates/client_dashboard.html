@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Client Dashboard - Kayiral Sellers</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:0; }
+    .container { max-width:1000px; margin:30px auto; background:#fff; padding:20px; border-radius:12px; }
+    h2 { text-align:center; }
+    table { width:100%; border-collapse:collapse; margin-top:20px; }
+    th, td { border:1px solid #ddd; padding:12px; text-align:center; }
+    th { background:#2a7ae2; color:#fff; }
+    tr:nth-child(even){ background:#f9f9f9; }
+    .btn { padding:8px 16px; border:none; border-radius:8px; color:#fff; cursor:pointer; text-decoration:none; }
+    .btn-cancel { background:#e74c3c; }
+    .btn-disabled { background:#aaa; cursor:not-allowed; }
+    a.back { display:inline-block; margin-top:20px; padding:10px 20px; background:#2a7ae2; color:#fff; border-radius:8px; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Orders</h2>
+    <table>
+      <tr>
+        <th>OrderID</th>
+        <th>Items</th>
+        <th>Total (PKR)</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      {% for o in orders %}
+      <tr>
+        <td>{{ o['OrderID'] }}</td>
+        <td style="text-align:left;">{{ o['Items'] }}</td>
+        <td>{{ o['Total'] }}</td>
+        <td>{{ o['Status'].capitalize() }}</td>
+        <td>
+          {% if o['Status'].lower() == 'confirmed' %}
+            <form method="POST" action="{{ url_for('cancel_order_client') }}">
+              <input type="hidden" name="order_id" value="{{ o['OrderID'] }}">
+              <button type="submit" class="btn btn-cancel">Cancel</button>
+            </form>
+          {% else %}
+            <button class="btn btn-disabled" disabled>Cannot Cancel</button>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <a href="{{ url_for('home') }}" class="back">Back to Shop</a>
+  </div>
+</body>
+</html>

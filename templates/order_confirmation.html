@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Confirmation - Kayiral Sellers</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+.container { max-width: 700px; margin: 20px auto; background: #fff; padding: 25px; border-radius: 10px; }
+h2 { color: #2a7ae2; }
+p { line-height: 1.6; }
+table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+th { background: #2a7ae2; color: #fff; }
+.total { font-weight: bold; }
+.btn { display: inline-block; padding: 12px 24px; background: #2a7ae2; color: #fff; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+.cancel-btn { background: #e74c3c; }
+</style>
+</head>
+<body>
+<div class="container">
+<h2>Order Confirmation</h2>
+<p>Hi {{ order['name'] }},</p>
+<p>Thank you for your order! Your order number is <strong>#{{ order['order_number'] }}</strong>.</p>
+
+<h3>Shipping Address</h3>
+<p>{{ order['address'] }}</p>
+
+{% if order['description'] %}
+<h3>Additional Notes:</h3>
+<p>{{ order['description'] }}</p>
+{% endif %}
+
+<h3>Order Summary</h3>
+<table>
+<tr>
+<th>Product</th>
+<th>Quantity</th>
+<th>Price</th>
+<th>Total</th>
+</tr>
+{% for item in order['items'] %}
+<tr>
+<td>{{ item['name'] }}</td>
+<td>{{ item['quantity'] }}</td>
+<td>PKR {{ item['price'] }}</td>
+<td>PKR {{ item['price'] * item['quantity'] }}</td>
+</tr>
+{% endfor %}
+<tr>
+<td colspan="3" class="total">Delivery Fee</td>
+<td>PKR {{ order['delivery_fee'] }}</td>
+</tr>
+<tr>
+<td colspan="3" class="total">Grand Total</td>
+<td class="total">PKR {{ order['total'] }}</td>
+</tr>
+</table>
+
+<p>Your order will be delivered soon.</p>
+
+<a href="/" class="btn">Back to Store</a>
+
+{% if can_cancel %}
+<a href="{{ url_for('cancel_order') }}" class="btn cancel-btn">Cancel Order</a>
+{% endif %}
+
+{% if clear_cart %}
+<script>
+  localStorage.removeItem('cart');
+  localStorage.removeItem('cart_for_checkout');
+</script>
+{% endif %}
+
+</div>
+</body>
+</html>

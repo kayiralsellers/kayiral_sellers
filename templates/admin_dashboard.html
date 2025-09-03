@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Kayiral Sellers</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+    header {
+      background: #2a7ae2;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 { margin: 0; }
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background: #2a7ae2;
+      color: #fff;
+    }
+    tr:nth-child(even) { background: #f9f9f9; }
+    .status-confirmed { color: #155724; font-weight: bold; }
+    .status-cancelled { color: #721c24; font-weight: bold; }
+    .status-delivered { color: #0c5460; font-weight: bold; }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      margin-top: 5px;
+      background: #2a7ae2;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-delivered { background: #28a745; }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Admin Dashboard</h2>
+  </header>
+
+  <div class="container">
+    <h3>All Orders</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>OrderID</th>
+          <th>Customer</th>
+          <th>Email</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order['OrderID'] }}</td>
+          <td>{{ order['CustomerName'] }}</td>
+          <td>{{ order['Email'] }}</td>
+          <td style="text-align:left;">{{ order['Items'] }}</td>
+          <td>PKR {{ order['Total'] }}</td>
+          <td class="status-{{ order['Status']|lower }}">
+            {{ order['Status'].capitalize() }}
+            {% if order['Status'].lower() == 'confirmed' %}
+            <form method="POST" action="/mark-delivered" style="display:inline;">
+              <input type="hidden" name="order_id" value="{{ order['OrderID'] }}">
+              <button type="submit" class="btn btn-delivered">Delivered</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <a href="/" class="btn">Back to Shop</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clothes - Kayiral Sellers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #fff; color: #222; position: relative; min-height: 100vh; padding-bottom: 60px;}
+    header { background: #2a7ae2; color: #fff; padding: 15px 30px; text-align: center; }
+    header h2 { margin: 0; }
+    nav { margin-top: 10px; }
+    nav a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: bold; }
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; flex: 1; }
+    .product { border:1px solid #ddd; border-radius:12px; padding:15px; text-align:center; background:#fafafa; transition: transform 0.2s; }
+    .product:hover { transform: translateY(-5px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .product img { width:100%; border-radius:12px; }
+    .product h3 { margin:10px 0 5px; font-size:18px; }
+    .product p { margin:5px 0; font-weight:bold; color:#2a7ae2; }
+    .btn { display:inline-block; margin-top:10px; padding:8px 16px; background:#2a7ae2; color:#fff; text-decoration:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .qty-controls { margin-top: 10px; display:flex; justify-content:center; align-items:center; gap:10px; }
+    .qty-controls button { padding:6px 12px; border:none; border-radius:6px; background:#2a7ae2; color:white; cursor:pointer; font-weight:bold; }
+    .qty-controls span { min-width:30px; text-align:center; font-size:16px; }
+    footer { position: absolute; bottom: 0; width: 100%; height: 60px; background: #222; color: #fff; text-align: center; line-height: 60px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Clothes - Kayiral Sellers</h2>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/cart">Cart</a>
+    <a href="/contact">Contact</a>
+  </nav>
+</header>
+
+<div class="products">
+  <!-- Product 1 -->
+    <div class="product">
+      <img src="{{ url_for('static', filename='images/Casual T-Shirt.jpeg') }}" alt="Casual T-shirt">
+      <h3>Casual T-Shirt</h3>
+      <p>PKR 899</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Casual T-Shirt" data-price="899">Add to Cart</button>
+    </div>
+
+  <!-- Product 2 -->
+    <div class="product">
+      <img src="{{ url_for('static', filename='images/Denim Jeans.jpg') }}" alt="Denim Jeans">
+      <h3>Denim Jeans</h3>
+      <p>PKR 1499</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Denim Jeans" data-price="1499">Add to Cart</button>
+    </div>
+
+    <!-- Product 3 -->
+    <div class="product">
+      <img src="{{ url_for('static', filename='images/Formal Shirt.jpeg') }}" alt="Formal Shirt">
+      <h3>Formal Shirt</h3>
+      <p>PKR 1299</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Formal Shirt" data-price="1299">Add to Cart</button>
+    </div>
+
+    <!-- Product 4 -->
+    <div class="product">
+      <img src="{{ url_for('static', filename='images/Summer Dress.jpeg') }}" alt="Summer Dress">
+      <h3>Summer Dress</h3>
+      <p>PKR 1799</p>
+      <div>
+        <button class="qty-btn minus">-</button>
+        <input type="number" class="qty" value="1" min="1">
+        <button class="qty-btn plus">+</button>
+      </div>
+      <button class="btn add-to-cart" data-name="Eye Shadow Palette" data-price="1799">Add to Cart</button>
+    </div>
+
+  </div>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  function updateCart(name, price, change){
+    let item = cart.find(i => i.name === name);
+    if(item){
+      item.quantity += change;
+      if(item.quantity <= 0){
+        cart = cart.filter(i => i.name !== name);
+      }
+    }else if(change > 0){
+      cart.push({name:name, price:price, quantity:1});
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  function renderQuantities(){
+    document.querySelectorAll('.product').forEach(prod=>{
+      const name = prod.getAttribute('data-name');
+      const qtySpan = prod.querySelector('.quantity');
+      const found = cart.find(i=>i.name===name);
+      qtySpan.textContent = found ? found.quantity : 0;
+    });
+  }
+
+  document.querySelectorAll('.increase').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const product = btn.closest('.product');
+      const name = product.getAttribute('data-name');
+      const price = parseInt(product.getAttribute('data-price'));
+      updateCart(name, price, 1);
+      renderQuantities();
+    });
+  });
+
+  document.querySelectorAll('.decrease').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const product = btn.closest('.product');
+      const name = product.getAttribute('data-name');
+      const price = parseInt(product.getAttribute('data-price'));
+      updateCart(name, price, -1);
+      renderQuantities();
+    });
+  });
+
+  renderQuantities();
+</script>
+
+<footer>
+  &copy; 2025 Kayiral Sellers. All rights reserved.
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Order Confirmation - Kayiral Sellers</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+  .container { max-width: 600px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 10px; }
+  h2 { color: #2a7ae2; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+  th { background: #2a7ae2; color: #fff; }
+  .total { font-weight: bold; }
+  .btn { display: inline-block; padding: 10px 20px; background: #2a7ae2; color: #fff; text-decoration: none; border-radius: 8px; margin-top: 20px; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h2>Order Confirmation - Kayiral Sellers</h2>
+    <p>Hi {{ name }},</p>
+    <p>Thank you for your order! Your order number is <strong>#{{ order_number }}</strong>.</p>
+
+    <h3>Shipping Address</h3>
+    <p>{{ address }}</p>
+
+    <h3>Order Summary</h3>
+    <table>
+      <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+      {% for item, qty, price in items %}
+      <tr>
+        <td>{{ item }}</td>
+        <td>{{ qty }}</td>
+        <td>PKR {{ price }}</td>
+        <td>PKR {{ price * qty }}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="3" class="total">COD Fee</td>
+        <td>PKR 50</td>
+      </tr>
+      <tr>
+        <td colspan="3" class="total">Grand Total</td>
+        <td class="total">PKR {{ total }}</td>
+      </tr>
+    </table>
+
+    <p>Your order will be delivered soon.</p>
+    <a href="/" class="btn">Visit Store</a>
+  </div>
+</body>
+</html>

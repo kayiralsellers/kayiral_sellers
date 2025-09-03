@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order - Kayiral Sellers</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; margin: 0; padding: 20px; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 10px;
+                 box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; margin-bottom: 20px; }
+    form { margin-bottom: 20px; text-align: center; }
+    input { padding: 10px; width: 70%; border-radius: 8px; border: 1px solid #ccc; }
+    button { padding: 10px 20px; border: none; border-radius: 8px; background: #2a7ae2; color: #fff; font-weight: bold; cursor: pointer; }
+    button:hover { opacity: 0.9; }
+
+    .order-box { padding: 20px; border-radius: 8px; margin-top: 20px; }
+    .pending { background: #fff3cd; color: #856404; }
+    .confirmed { background: #cce5ff; color: #004085; }
+    .delivered { background: #d4edda; color: #155724; }
+    .cancelled { background: #f8d7da; color: #721c24; }
+    .notfound { background: #e2e3e5; color: #383d41; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background: #f1f1f1; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Track Your Order</h2>
+    <form method="POST">
+      <input type="text" name="order_id" placeholder="Enter Order Number e.g. 123456" required>
+      <button type="submit">Track</button>
+    </form>
+
+    {% if searched %}
+      {% if order %}
+        <div class="order-box {{ order['Status']|lower }}">
+          <h3>Order #{{ order['OrderID'] }}</h3>
+          <p><strong>Name:</strong> {{ order['CustomerName'] }}</p>
+          <p><strong>Phone:</strong> {{ order['Phone'] }}</p>
+          <p><strong>Email:</strong> {{ order['Email'] }}</p>
+          <p><strong>Address:</strong> {{ order['Address'] }}</p>
+          {% if order['Description'] %}<p><strong>Notes:</strong> {{ order['Description'] }}</p>{% endif %}
+
+          <h4>Items:</h4>
+          <p>{{ order['Items'] }}</p>
+
+          <table>
+            <tr><th>Delivery Fee</th><td>PKR {{ order['DeliveryFee'] }}</td></tr>
+            <tr><th>Total</th><td><strong>PKR {{ order['Total'] }}</strong></td></tr>
+            <tr><th>Status</th><td><strong>{{ order['Status']|capitalize }}</strong></td></tr>
+            <tr><th>Date</th><td>{{ order['Date'] }}</td></tr>
+          </table>
+        </div>
+      {% else %}
+        <div class="order-box notfound">
+          ❌ Order not found. Please check your Order Number.
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</body>
+</html>
